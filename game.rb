@@ -9,58 +9,80 @@ class Game
     @game = GameController.new(5,5)
   end
 
-  def start_command
+  def command_line_interface
     init = false
+    comment = ""
     while !init
       puts "Please use PLACE x,y,f to place to pacman"
-      command = gets
+      command = gets.chomp
       if command =~ /^PLACE [0-4],[0-4],(NORTH|SOUTH|EAST|WEST)$/
         init = true
-        args = command.split(' ')[1].split(',')
-        x = args[0].to_i
-        y = args[1].to_i
-        face = args[2]
-        game.place(x,y,face)
-        puts "Pacman placed, use 'MOVE,LEFT,RIGHT' to move it, use 'REPORT' to report the current coordinate"
-        operation_command
+        operation_command(command)
+        puts "Pacman placed, use 'MOVE,LEFT,RIGHT' to move it, use 'REPORT' to report the current position"
+      end
+    end
+    command = gets.chomp
+    while command != 'exit'
+      if feedback = operation_command(command)
+        puts feedback
+      else
+        puts 'Invalid command'
+      end
+      command = gets.chomp
+    end
+  end
+
+  def read_file(file_path)
+    File.open(file_path, "r") do |f|
+      start = false
+      f.each_line do |line|
+        if line =~ /^PLACE [0-4],[0-4],(NORTH|SOUTH|EAST|WEST)$/
+          start = true
+        end
+        if start && feedback = operation_command(line.chomp)
+          puts feedback
+        else
+          puts 'Invalid command'
+        end
       end
     end
   end
 
-  def operation_command
-    command = gets.chomp
-    while command != 'exit'
-      case command
-      when /^PLACE [0-4],[0-4],(NORTH|SOUTH|EAST|WEST)$/
-        args = command.split(' ')[1].split(',')
-        x = args[0].to_i
-        y = args[1].to_i
-        face = args[2]
-        puts "Pacman placed." if game.place(x,y,face)
-      when "MOVE"
-        if !game.move
-          puts "Invalid movement"
-        else
-          puts "Pacman moved"
-        end
-      when "LEFT"
-        game.left
-        puts "Pacman changed direction"
-      when "RIGHT"
-        game.right
-        puts "Pacman changed direction"
-      when "REPORT"
-        puts game.report
+  def operation_command(command)
+    case command
+    when /^PLACE [0-4],[0-4],(NORTH|SOUTH|EAST|WEST)$/
+      args = command.split(' ')[1].split(',')
+      x = args[0].to_i
+      y = args[1].to_i
+      face = args[2]
+      if game.place(x,y,face)
+        return "Pacman Placed"
       else
-        puts "Invalid command"
+        return false
       end
-      command = gets.chomp
+    when "MOVE"
+      if game.move
+        return "Move foward"
+      else
+        return false
+      end
+    when "LEFT"
+      game.left
+      return "Turn left"
+    when "RIGHT"
+      game.right
+      return "Turn right"
+    when "REPORT"
+      game.report
+    else
+      return false
     end
   end
 end
 
 g = Game.new
-# g.start_command
+# g.command_line_interface
+
 
 binding.pry
 puts 'end'
