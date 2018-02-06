@@ -50,3 +50,4 @@ REPORT
 Output: 2,1,EAST
 ```
 ## Test
+`ruby test_game.rb`

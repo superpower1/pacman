@@ -4,9 +4,9 @@ require 'pry'
 class GameController
   attr_accessor :width, :height, :pacman
 
-  def initialize(width, height)
-    @width = width
-    @height = height
+  def initialize(size)
+    @width = size[:width]
+    @height = size[:height]
     @pacman = Pacman.new
     @face_angle_hash = {
       "EAST": 0,
@@ -49,10 +49,10 @@ class GameController
   def move
     case pacman.angle
     when 0
-      return false if pacman.x + 1 > width
+      return false if pacman.x + 1 >= width
       pacman.x= pacman.x + 1
     when 90
-      return false if pacman.y + 1 > height
+      return false if pacman.y + 1 >= height
       pacman.y= pacman.y + 1
     when 180
       return false if pacman.x - 1 < 0

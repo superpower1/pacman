@@ -1,0 +1,4 @@
+invalid input
+MOVE
+PLACE 5,0,NORTH
+PLACE 2,6,EAST
