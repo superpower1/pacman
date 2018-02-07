@@ -1,5 +1,4 @@
 require_relative 'pacman'
-require 'pry'
 
 class GameController
   attr_accessor :width, :height, :pacman
@@ -78,6 +77,3 @@ class GameController
   end
 
 end
-
-# binding.pry
-# puts "end"

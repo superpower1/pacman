@@ -3,7 +3,8 @@ This is a command line ruby app that simulate the movement of Pacman
 
 ## Install
 1. If you haven't installed ruby, please follow the steps of  https://www.ruby-lang.org/en/documentation/installation/ to install ruby (This app is built under version 2.4.3)
-2. `ruby game.rb` to run the simulator
+2. `ruby main.rb` to run the command line interface for the simulator
+3. `ruby read_file.rb` to read commands from a file to the simulator
 
 ## Intro
 After you run the app, it will create a 5*5 game board (bottom left corner is the origin(0,0)).
@@ -22,7 +23,7 @@ REPORT
 * `RIGHT` is to make a right turn.
 * `REPORT` is to report the current position and facing of the pacman.
 
-The first command should be 'PLACE', any other commands before place will be ignored.
+The first command should be 'PLACE', any other commands before place will be ignored. If you want to quit the app, type in `exit`
 
 ## Example
 1.

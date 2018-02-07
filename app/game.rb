@@ -1,5 +1,4 @@
 require_relative 'game_controller'
-require 'pry'
 
 class Game
 
@@ -72,26 +71,23 @@ class Game
   end
 
   def read_file(file_path)
-    File.open(file_path, "r") do |f|
-      start = false
-      f.each_line do |line|
-        if line =~ place_command
-          start = true
-        end
-        if start && feedback = operation_command(line.chomp)
-          puts feedback
-        else
-          puts 'Invalid command'
+    begin
+      File.open(file_path, "r") do |f|
+        start = false
+        f.each_line do |line|
+          if line =~ place_command
+            start = true
+          end
+          if start && feedback = operation_command(line.chomp)
+            puts feedback
+          else
+            puts 'Invalid command'
+          end
         end
       end
+    rescue => err
+      puts "#{err}"
     end
   end
 
 end
-
-# g = Game.new
-# g.command_line_interface
-
-
-# binding.pry
-# puts 'end'
